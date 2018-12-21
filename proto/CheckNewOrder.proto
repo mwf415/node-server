@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.cgd.base_plat_form_api.grpc";
+option java_outer_classname = "CheckNewOrderProto";
+option objc_class_prefix = "HLW";
+package device;
+
+// The device service definition.
+service CheckNewOrderService {
+    // Sends a message
+    rpc getMsg (QryCheckNewOrderReqBO) returns (QryCheckNewOrderRspBO) {}
+}
+
+
+// The request message .
+message QryCheckNewOrderReqBO {
+         /**
+          * 供应商ID
+          */
+         int64 supplierId = 1;
+
+        /**
+         * 时间（不包含当天）
+         */
+         string date = 2;
+
+        /**
+         * 当前页码
+         */
+         int32 page = 3;
+
+         int32 pageSize = 4;
+
+         int32 errorId =5 ; // 拉去异常的ID
+}
+message QryCheckNewOrderRspBO {
+
+    repeated  QryCheckNewOrderItemRspBO qryCheckNewOrderItemRspBOList = 1;
+
+    /**
+     * 订单总数
+     */
+    int64 totalNum = 2;
+
+    /**
+     * 总页码数
+     */
+    int32 totalPage = 3;
+
+    /**
+     * 当前页码
+     */
+    int32 curPage = 4;
+
+    /**
+     * 调用返回标识 true false
+     * @return
+     */
+    bool success = 5;
+
+    string errorPage = 6;
+}
+
+
+message QryCheckNewOrderItemRspBO{
+
+
+	/**
+     * 订单编号
+     */
+    string orderId = 1;
+
+    /**
+     * 订单状态 0 是新建  1是妥投   2是拒收
+     */
+    int32 state= 2 ;
+
+    /**
+     * 是否挂起   0为为挂起    1为挂起
+     */
+    int32 hangUpState=3;
+
+    /**
+     * 开票方式(1为随货开票，0为订单预借，2为集中开票 )
+     */
+    int32 invoiceState=4;
+
+    /**
+     * 订单金额
+     */
+    double orderPrice=5;
+
+    /**
+     * 时间
+     */
+    string time=6;
+
+    int64 goodsSupplierId=7; //供应商ID
+
+}
